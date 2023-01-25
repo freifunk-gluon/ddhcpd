@@ -39,7 +39,7 @@ Starting a node: The learning phase
 
 In the beginning, after a node is started, it has no knowledge about state of blocks.
 So it needs to listen and learn. As described above, a claimed block must be 
-refreshed, hence if the node listen for block-timeout time then each claimed
+refreshed, hence if the node listens for block-timeout time then each claimed
 block should have been reclaimed, and all none claimed blocks are free. By
 the definition of the state machine.
 

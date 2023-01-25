@@ -95,7 +95,7 @@ ATTR_NONNULL_ALL void house_keeping(ddhcp_config* config) {
 ATTR_NONNULL_ALL uint32_t get_loop_timeout(ddhcp_config* config) {
   //Multiply by 500 to convert the timeout value given in seconds
   //into milliseconds AND dividing the value by two at the same time.
-  //The integer overflow occuring for timeouts greater than 99.4 days is ignored here.
+  //The integer overflow occurring for timeouts greater than 99.4 days is ignored here.
   return config->tentative_timeout * 500u;
 }
 
@@ -180,7 +180,7 @@ ATTR_NONNULL_ALL int hdl_dhcp(epoll_data_t data, ddhcp_config* config) {
 ATTR_NONNULL_ALL int hdl_ctrl_cmd(epoll_data_t data, ddhcp_config* config) {
   int fd = epoll_get_fd(data);
   ssize_t len;
-  // Handle commands comming over a control_socket
+  // Handle commands coming over a control_socket
   len = read(fd, buffer, 1500);
 
   if (handle_command(fd, buffer, len, config) < 0) {
@@ -279,7 +279,7 @@ int main(int argc, char** argv) {
     case 't':
       config.tentative_timeout = (uint16_t)atoi(optarg);
       if (config.tentative_timeout < 2) {
-        ERROR("Tentative timeout must at least two\n");
+        ERROR("Tentative timeout must be at least two\n");
         exit(1);
       }
       break;
@@ -349,7 +349,7 @@ int main(int argc, char** argv) {
 #if LOG_LEVEL_LIMIT >= LOG_WARNING
 
       if (config.spare_leases_needed == 0) {
-        WARNING("This deamon will only serve roamed clients with a spare limit of zero.");
+        WARNING("This daemon will only serve roamed clients with a spare limit of zero.");
       }
 
 #endif
@@ -383,7 +383,7 @@ int main(int argc, char** argv) {
   if (show_usage) {
     printf("Usage: %s [-h] [-d|-D] [-L] [-c CLT-IFACE|-S] [-i SRV-IFACE] [-t TENTATIVE-TIMEOUT] [-B BLOCK-TIMEOUT]\n", argv[0]);
     printf("\n");
-    printf("-h                     This usage information.\n");
+    printf("-h                     This usage information\n");
     printf("-c CLT-IFACE           Interface on which requests from clients are handled\n");
     printf("-i SRV-IFACE           Interface on which different servers communicate\n");
     printf("-S                     no Client interface\n");
@@ -441,7 +441,7 @@ int main(int argc, char** argv) {
     //openlog("ddhcp", LOG_PID | LOG_CONS | LOG_NDELAY, LOG_DAEMON);
   }
 
-  // init block stucture
+  // init block structure
   ddhcp_block_init(&config);
 
   if (dhcp_options_init(&config)) {
