@@ -534,11 +534,11 @@ ATTR_NONNULL_ALL void block_show_status(int fd, ddhcp_config* config) {
       leases[1] = '\0';
     }
 
-    time_t timeout = block->timeout - now;
+    double timeout = difftime(block->timeout, now);
 
     if (timeout > 0) {
       num_reserved_blocks++;
-      dprintf(fd, "%i\t%i\t%s\t%u\t%s\t%lu\n", block->index, block->state, node_id, block->claiming_counts, leases, timeout);
+      dprintf(fd, "%i\t%i\t%s\t%u\t%s\t%g\n", block->index, block->state, node_id, block->claiming_counts, leases, timeout);
     }
 
     block++;
