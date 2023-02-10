@@ -250,10 +250,18 @@ int main(int argc, char** argv) {
   while ((c = getopt(argc, argv, "C:c:i:St:dvVDhLb:B:N:o:s:H:n:")) != -1) {
     switch (c) {
     case 'i':
+      if (strlen(optarg) > IFNAMSIZ) {
+        ERROR("Server interface name too long\n");
+        exit(1);
+      }
       interface = strdup(optarg);
       break;
 
     case 'c':
+      if (strlen(optarg) > IFNAMSIZ) {
+        ERROR("Client interface name too long\n");
+        exit(1);
+      }
       interface_client = strdup(optarg);
       break;
 
