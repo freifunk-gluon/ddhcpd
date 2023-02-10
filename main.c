@@ -250,11 +250,11 @@ int main(int argc, char** argv) {
   while ((c = getopt(argc, argv, "C:c:i:St:dvVDhLb:B:N:o:s:H:n:")) != -1) {
     switch (c) {
     case 'i':
-      interface = optarg;
+      interface = strdup(optarg);
       break;
 
     case 'c':
-      interface_client = optarg;
+      interface_client = strdup(optarg);
       break;
 
     case 'b':
@@ -356,11 +356,11 @@ int main(int argc, char** argv) {
       break;
 
     case 'C':
-      config.control_path = optarg;
+      config.control_path = strdup(optarg);
       break;
 
     case 'H':
-      config.hook_command = optarg;
+      config.hook_command = strdup(optarg);
       break;
 
     case 'v':
