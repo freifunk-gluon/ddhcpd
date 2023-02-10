@@ -91,3 +91,17 @@ ATTR_NONNULL_ALL char* hwaddr2c(uint8_t* hwaddr) {
 
   return str;
 }
+
+ATTR_NONNULL_ALL uint8_t * nodeid2hwaddr(ddhcp_node_id * node_id) {
+    uint8_t * hwaddr = calloc(6, sizeof(uint8_t));
+    if (!hwaddr) {
+        return NULL;
+    }
+
+    // TODO: memcpy?
+    for (int i = 0; i < 6; ++i) {
+        hwaddr[i] = *node_id[2 + i];
+    }
+
+    return hwaddr;
+}

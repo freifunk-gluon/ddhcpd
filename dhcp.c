@@ -572,6 +572,7 @@ ATTR_NONNULL_ALL int dhcp_ack(int socket, dhcp_packet* request, ddhcp_block* lea
   lease->xid = request->xid;
   lease->state = LEASED;
   lease->lease_end = now + find_in_option_store_address_lease_time(&config->options)  + DHCP_LEASE_SERVER_DELTA;
+  lease->hookclaim = 0; // take it over, without unclaiming it
 
   addr_add(&lease_block->subnet, &packet->yiaddr, (int)lease_index);
 
