@@ -31,6 +31,10 @@ ATTR_NONNULL_ALL void hook_address(uint8_t type, struct in_addr* address, uint8_
     action = (char*)"release";
     break;
 
+  case HOOK_INFORM:
+    action = (char*)"inform";
+    break;
+
   default:
     break;
   }

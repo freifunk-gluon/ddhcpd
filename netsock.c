@@ -144,7 +144,7 @@ ATTR_NONNULL_ALL int netsock_open_socket_v6(ddhcp_epoll_data* data, struct in6_a
     FATAL("netsock_open_socket_v6(...): unable to create socket\n");
   }
 
-  if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, data->interface_name, (socklen_t) strlen(data->interface_name))) {
+  if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, data->interface_name, (socklen_t) strnlen(data->interface_name, IFNAMSIZ))) {
     FATAL("netsock_open_socket_v6(...): setsockopt: can't bind to device '%s'\n", data->interface_name);
     goto error;
   }
@@ -209,7 +209,7 @@ ATTR_NONNULL_ALL int netsock_open_dhcp(ddhcp_epoll_data* data,uint16_t port) {
   memcpy(&sin.sin_addr, &address_client, sizeof(sin.sin_addr));
 
   if (setsockopt(sock, SOL_SOCKET, SO_BINDTODEVICE, data->interface_name,
-                 (socklen_t)strlen(data->interface_name) + 1)) {
+                 (socklen_t) strnlen(data->interface_name, IFNAMSIZ))) {
     perror("can't bind to broadcast device");
     close(sock);
     return -1;
