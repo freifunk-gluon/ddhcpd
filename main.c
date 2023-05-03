@@ -338,6 +338,10 @@ int main(int argc, char** argv) {
           ERROR("Are you the internet? CIDR less than 8 seems strange.\n");
           exit(1);
         }
+        if (config.prefix_len > 32) {
+          ERROR("Are you alone? Prefix length larger than address space.\n");
+          exit(1);
+        }
       } while (0);
       break;
 
