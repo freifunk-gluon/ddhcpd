@@ -382,7 +382,7 @@ int main(int argc, char** argv) {
       break;
 
     default:
-      printf("ARGC: %i\n", argc);
+      printf("Unknown argument at index %i\n", optind);
       show_usage = 1;
       break;
     }
