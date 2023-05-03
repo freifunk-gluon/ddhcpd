@@ -24,7 +24,7 @@ int block_alloc(ddhcp_block* block) {
     return 0;
   }
 
-  block->addresses = (struct dhcp_lease*) calloc(sizeof(struct dhcp_lease), block->subnet_len);
+  block->addresses = calloc(block->subnet_len, sizeof(struct dhcp_lease));
 
   if (!block->addresses) {
     WARNING("block_alloc(...): Failed to allocate memory for lease management on block %i\n", block->index);
@@ -199,7 +199,7 @@ ATTR_NONNULL_ALL int block_claim(int32_t num_blocks, ddhcp_config* config) {
 
   packet->count = config->claiming_blocks_amount;
 
-  packet->payload = (struct ddhcp_payload*) calloc(sizeof(struct ddhcp_payload), config->claiming_blocks_amount);
+  packet->payload = calloc(config->claiming_blocks_amount, sizeof(struct ddhcp_payload));
 
   if (!packet->payload) {
     free(packet);
@@ -409,7 +409,7 @@ ATTR_NONNULL_ALL void block_update_claims(ddhcp_config* config) {
   // Aggressively group blocks into packets, send packet iff
   // at least one block in a packet is below the baseline.
 
-  packet->payload = (struct ddhcp_payload*) calloc(sizeof(struct ddhcp_payload), UPDATE_CLAIM_MAX_BLOCKS);
+  packet->payload = calloc(UPDATE_CLAIM_MAX_BLOCKS, sizeof(struct ddhcp_payload));
 
   if (!packet->payload) {
     WARNING("block_update_claims(...): Failed to allocate ddhcpd packet payload.\n");

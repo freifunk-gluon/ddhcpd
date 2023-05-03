@@ -82,7 +82,7 @@ ATTR_NONNULL_ALL static void _dhcp_release_lease(ddhcp_block* block, uint32_t le
 ATTR_NONNULL_ALL dhcp_packet* build_initial_packet(dhcp_packet* from_client) {
   DEBUG("build_initial_packet(from_client)\n");
 
-  dhcp_packet* packet = (dhcp_packet*) calloc(sizeof(dhcp_packet), 1);
+  dhcp_packet* packet = calloc(1, sizeof(dhcp_packet));
 
   if (!packet) {
     WARNING("build_initial_packet(...): packet memory allocation failed\n");
@@ -531,7 +531,7 @@ ATTR_NONNULL_ALL int dhcp_nack(int socket, dhcp_packet* from_client, ddhcp_confi
   }
 
   packet->options_len = 1;
-  packet->options = (dhcp_option*) calloc(sizeof(dhcp_option), 1);
+  packet->options = calloc(1, sizeof(dhcp_option));
 
   if (!packet->options) {
     WARNING("dhcp_nack(...): option memory allocation failed\n");

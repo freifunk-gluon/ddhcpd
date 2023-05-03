@@ -463,7 +463,7 @@ int main(int argc, char** argv) {
   // Initializing Network Buffer, EPOLL and Sockets 
   // Here all later event loop handling is initialized
   // --------------------------------------------------------------------------
-  buffer = (uint8_t*) malloc(sizeof(uint8_t) * 1500);
+  buffer = calloc(1500, 1);
 
   if (!buffer) {
     FATAL("Failed to allocate network buffer\n");

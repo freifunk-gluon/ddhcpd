@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
   char* path = (char*)"/tmp/ddhcpd_ctl";
 
 #define BUFSIZE_MAX 1500
-  uint8_t* buffer = (uint8_t*) calloc(sizeof(uint8_t), BUFSIZE_MAX);
+  uint8_t* buffer = calloc(BUFSIZE_MAX, 1);
 
   if (!buffer) {
     fprintf(stderr, "Failed to allocate message buffer\n");

@@ -14,7 +14,7 @@ ATTR_NONNULL_ALL int ddhcp_block_init(ddhcp_config* config) {
     return 1;
   }
 
-  config->blocks = (struct ddhcp_block*) calloc(sizeof(struct ddhcp_block), config->number_of_blocks);
+  config->blocks = calloc(config->number_of_blocks, sizeof(struct ddhcp_block));
 
   if (!config->blocks) {
     FATAL("ddhcp_block_init(...): Can't allocate memory for block structure\n");

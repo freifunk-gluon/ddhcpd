@@ -50,7 +50,7 @@ dhcp_option* parse_option() {
 
   option->code = code;
   option->len = len;
-  option->payload = (uint8_t*)calloc(len, sizeof(uint8_t));
+  option->payload = calloc(len, 1);
 
   if (!option->payload) {
     ERROR("parse_option(...): Failed to allocate memory for dhcp option payload '%s'\n", optarg);
@@ -79,7 +79,7 @@ dhcp_option* parse_option() {
 }
 
 ATTR_NONNULL_ALL char* hwaddr2c(uint8_t* hwaddr) {
-  char* str = calloc(18, sizeof(char));
+  char* str = calloc(18, 1);
 
   if (!str) {
     FATAL("hwaddr2c(...): Failed to allocate buffer.\n");

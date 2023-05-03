@@ -193,7 +193,7 @@ ATTR_NONNULL_ALL ssize_t ntoh_dhcp_packet(dhcp_packet* packet, uint8_t* buffer, 
   }
 
   packet->options_len = (uint8_t)options;
-  packet->options = (dhcp_option*) calloc(options, sizeof(dhcp_option));
+  packet->options = calloc(options, sizeof(dhcp_option));
 
   if (!packet->options) {
     WARNING("ntoh_dhcp_packet(...): option memory allocation failed.\n");
@@ -247,7 +247,7 @@ ATTR_NONNULL_ALL ssize_t dhcp_packet_send(int socket, dhcp_packet* packet) {
   uint16_t tmp16;
   uint32_t tmp32;
 
-  uint8_t* buffer = calloc(sizeof(char), _dhcp_packet_len(packet));
+  uint8_t* buffer = calloc(_dhcp_packet_len(packet), 1);
 
   if (!buffer) {
     return -ENOMEM;
@@ -337,7 +337,7 @@ ATTR_NONNULL_ALL int dhcp_packet_copy(dhcp_packet* dest, dhcp_packet* src) {
   int err;
 
   memcpy(dest, src, sizeof(struct dhcp_packet));
-  dest->options = (struct dhcp_option*) calloc(src->options_len, sizeof(struct dhcp_option));
+  dest->options = calloc(src->options_len, sizeof(struct dhcp_option));
 
   if (!dest->options) {
     return 1;
@@ -347,7 +347,7 @@ ATTR_NONNULL_ALL int dhcp_packet_copy(dhcp_packet* dest, dhcp_packet* src) {
   dhcp_option* dest_option = dest->options;
 
   for (; src_option < src->options + src->options_len; src_option++) {
-    uint8_t* dest_payload = (uint8_t*) calloc(src_option->len, sizeof(uint8_t));
+    uint8_t* dest_payload = calloc(src_option->len, 1);
 
     if (!dest_payload) {
       err = -ENOMEM;

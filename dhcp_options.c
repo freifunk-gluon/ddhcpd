@@ -170,7 +170,7 @@ ATTR_NONNULL_ALL int16_t fill_options(dhcp_option* options, uint8_t len, dhcp_op
   uint8_t* requested = NULL;
   int max_options = find_option_parameter_request_list(options, len, &requested);
 
-  *fulfill = (dhcp_option*) calloc(sizeof(dhcp_option), (size_t)(max_options + additional));
+  *fulfill = calloc((size_t)(max_options + additional), sizeof(dhcp_option));
 
   if (!*fulfill) {
     return -ENOMEM;
@@ -219,7 +219,7 @@ ATTR_NONNULL_ALL int dhcp_options_init(ddhcp_config* config) {
 
   if (! has_in_option_store(&config->options, DHCP_CODE_SUBNET_MASK)) {
     // subnet mask
-    option = (dhcp_option*) calloc(sizeof(dhcp_option), 1);
+    option = calloc(1, sizeof(dhcp_option));
 
     if (!option) {
       return -ENOMEM;
@@ -227,7 +227,7 @@ ATTR_NONNULL_ALL int dhcp_options_init(ddhcp_config* config) {
 
     option->code = DHCP_CODE_SUBNET_MASK;
     option->len = 4;
-    option->payload = (uint8_t*) calloc(sizeof(uint8_t), 4);
+    option->payload = calloc(4, 1);
 
     if (!option->payload) {
       free(option);
@@ -251,7 +251,7 @@ ATTR_NONNULL_ALL int dhcp_options_init(ddhcp_config* config) {
 
     option->code = DHCP_CODE_TIME_OFFSET;
     option->len = 4;
-    option->payload = (uint8_t*) calloc(sizeof(uint8_t), 4);
+    option->payload = calloc(4, 1);
 
     if (!option->payload) {
       free(option);
@@ -275,7 +275,7 @@ ATTR_NONNULL_ALL int dhcp_options_init(ddhcp_config* config) {
 
     option->code = DHCP_CODE_BROADCAST_ADDRESS;
     option->len = 4;
-    option->payload = (uint8_t*) calloc(sizeof(uint8_t), 4);
+    option->payload = calloc(4, 1);
 
     if (!option->payload) {
       free(option);
@@ -291,7 +291,7 @@ ATTR_NONNULL_ALL int dhcp_options_init(ddhcp_config* config) {
   }
 
   if (! has_in_option_store(&config->options, DHCP_CODE_ADDRESS_LEASE_TIME)) {
-    option = (dhcp_option*) calloc(sizeof(dhcp_option), 1);
+    option = calloc(1, sizeof(dhcp_option));
 
     if (!option) {
       return -ENOMEM;
@@ -299,7 +299,7 @@ ATTR_NONNULL_ALL int dhcp_options_init(ddhcp_config* config) {
 
     option->code = DHCP_CODE_ADDRESS_LEASE_TIME;
     option->len = 4;
-    option->payload = (uint8_t*) calloc(sizeof(uint8_t), 4);
+    option->payload = calloc(4, 1);
 
     if (!option->payload) {
       free(option);
@@ -324,7 +324,7 @@ ATTR_NONNULL_ALL int dhcp_options_init(ddhcp_config* config) {
 
     option->code = DHCP_CODE_SERVER_IDENTIFIER;
     option->len = 4;
-    option->payload = (uint8_t*) calloc(sizeof(uint8_t), 4);
+    option->payload = calloc(4, 1);
 
     if (!option->payload) {
       free(option);
