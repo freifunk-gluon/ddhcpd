@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
   if (show_usage) {
     printf("Usage: ddhcpctl [-h|-V|-b|-d|-o <option>|-C PATH|-l TIMEOUT|-v VERBOSITY]\n");
     printf("\n");
-    printf("-h                     This usage information.\n");
+    printf("-h                     This usage information\n");
     printf("-V                     Print build revision\n");
     printf("-b                     Show current block usage.\n");
     printf("-d                     Show the current dhcp options store.\n");
@@ -156,7 +156,7 @@ int main(int argc, char** argv) {
   int ret = fcntl(ctl_sock, F_GETFL, 0);
 
   if (ret < 0) {
-    perror("Cant't set stuff");
+    perror("Can't set stuff");
   }
 
   ssize_t bw = send(ctl_sock, buffer, msglen, 0);

@@ -93,7 +93,7 @@ ATTR_NONNULL_ALL int dhcp_packet_copy(dhcp_packet* dest, dhcp_packet* src);
  * Reads and checks a dhcp_packet from buffer. Will return zero on success.
  * To reduce memory consumption and prevent further memcpy operations this will
  * make pointer to the buffer inside of the dhcp_packet structure. Do not free
- * the buffer before the last operation on that struture!
+ * the buffer before the last operation on that structure!
  */
 ATTR_NONNULL_ALL ssize_t ntoh_dhcp_packet(dhcp_packet* packet, uint8_t* buffer, ssize_t len);
 ATTR_NONNULL_ALL ssize_t dhcp_packet_send(int socket, dhcp_packet* packet);

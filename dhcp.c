@@ -57,7 +57,7 @@ ATTR_NONNULL(1,2) uint8_t find_lease_from_address(struct in_addr* addr, ddhcp_co
     if (blocks[block_number].state == DDHCP_OURS) {
       return 0;
     } else {
-      // TODO Try to aquire address for client
+      // TODO Try to acquire address for client
       return 1;
     }
   }
@@ -115,7 +115,7 @@ ATTR_NONNULL_ALL static int16_t _dhcp_default_options(uint8_t msg_type, dhcp_pac
   // TODO We need a more extendable way to build up options
   // TODO Proper error handling
 
-  // Fill options list with requested options, allocate memory and reserve for additonal
+  // Fill options list with requested options, allocate memory and reserve for additional
   // dhcp options.
   if ((num_options = fill_options(request->options, request->options_len, &config->options, 3, &packet->options)) < 0) {
     return num_options;

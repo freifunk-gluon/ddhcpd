@@ -130,7 +130,7 @@ ATTR_NONNULL_ALL ddhcp_block* block_find_free(ddhcp_config* config) {
 ATTR_NONNULL_ALL int block_claim(int32_t num_blocks, ddhcp_config* config) {
   DEBUG("block_claim(count:%i, config)\n", num_blocks);
 
-  // Handle blocks already in claiming prozess
+  // Handle blocks already in claiming process
   struct list_head* pos, *q;
   time_t now = time(NULL);
 
@@ -139,7 +139,7 @@ ATTR_NONNULL_ALL int block_claim(int32_t num_blocks, ddhcp_config* config) {
 
     if (block->claiming_counts == 3) {
       if ( block_own(block, config) > 0) {
-        ERROR("block_claim(...): Claiming block (%i) failed, reseting claim counter.", block->index);
+        ERROR("block_claim(...): Claiming block (%i) failed, resetting claim counter.", block->index);
         block->claiming_counts = 0;
       } else {
         //Reduce number of blocks we need to claim

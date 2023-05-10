@@ -112,7 +112,7 @@ ATTR_NONNULL_ALL int netsock_unix_socket_open(ddhcp_epoll_data* data) {
   }
 
   if (listen(ctl_sock, 2) < 0) {
-    perror("failed ot listen");
+    perror("failed to listen");
     goto err;
   }
 

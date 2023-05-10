@@ -11,7 +11,7 @@ stupid stuff, but also allow you maximal adaption.
 
     Usage: ddhcp [-h] [-d|-D] [-L] [-c CLT-IFACE|-S] [-i SRV-IFACE] [-t TENTATIVE-TIMEOUT] [-B BLOCK-TIMEOUT]
 
-    -h                     This usage information.
+    -h                     This usage information
     -c CLT-IFACE           Interface on which requests from clients are handled
     -i SRV-IFACE           Interface on which different servers communicate
     -S                     no client interface
@@ -99,7 +99,7 @@ Upcoming versions of DDHCPD may introduce further action keywords.
 Network analyzing
 -----------------
 
-You can count the nodes in your network wich an active ddhcpd with
+You can count the nodes in your network with an active ddhcpd with
 
     # ddhcpdctl -b | tail -n+10 | sed -e 's/\t\+/ /g' | cut -d ' ' -f 3 | sort -u | wc -l
 

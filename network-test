@@ -202,7 +202,7 @@ function test_full(){
   NUMBER_OF_CLIENT_INTERFACES=5
   $0 net-init 4
   trap "pkill ddhcpd ; rm /tmp/ddhcpd-ctl* 2>&1 > /dev/null; $0 net-stop" EXIT
-  # Start deamons
+  # Start daemons
   echo -n "Startup DDHCPD instances"
   ( $0 srv-start 0 ./ddhcpd -L -s 2 -t 15 -B 300 -b 2 -C /tmp/ddhcpd-ctl0 -c client0 -i server0 -N 10.0.128.0/17 -o 54:4:10.0.0.1 -o 1:4:255.255.0.0 -o 51:4:0.0.1.44 > /tmp/ddhcpd-0.log 2>&1;) &
   ( $0 srv-start 1 ./ddhcpd -L -s 2 -t 15 -B 300 -b 2 -C /tmp/ddhcpd-ctl1 -c client0 -i server0 -N 10.0.128.0/17 -o 54:4:10.0.0.1 -o 1:4:255.255.0.0 -o 51:4:0.0.1.44 > /tmp/ddhcpd-1.log 2>&1;) &

@@ -164,15 +164,15 @@ ATTR_NONNULL_ALL void free_option_store(dhcp_option_list* store) {
 
 ATTR_NONNULL_ALL dhcp_option* remove_option_from_store(dhcp_option_list* store, uint8_t code);
 
-ATTR_NONNULL_ALL int16_t fill_options(dhcp_option* options, uint8_t len, dhcp_option_list* option_store, uint8_t additional, dhcp_option** fullfil) {
+ATTR_NONNULL_ALL int16_t fill_options(dhcp_option* options, uint8_t len, dhcp_option_list* option_store, uint8_t additional, dhcp_option** fulfill) {
   uint8_t num_found_options = 0;
 
   uint8_t* requested = NULL;
   int max_options = find_option_parameter_request_list(options, len, &requested);
 
-  *fullfil = (dhcp_option*) calloc(sizeof(dhcp_option), (size_t)(max_options + additional));
+  *fulfill = (dhcp_option*) calloc(sizeof(dhcp_option), (size_t)(max_options + additional));
 
-  if (!*fullfil) {
+  if (!*fulfill) {
     return -ENOMEM;
   }
 
@@ -186,7 +186,7 @@ ATTR_NONNULL_ALL int16_t fill_options(dhcp_option* options, uint8_t len, dhcp_op
     dhcp_option* option = find_in_option_store(option_store, code);
 
     if (option) {
-      memcpy(*fullfil + num_found_options, option, sizeof(dhcp_option));
+      memcpy(*fulfill + num_found_options, option, sizeof(dhcp_option));
       num_found_options++;
     }
   }
