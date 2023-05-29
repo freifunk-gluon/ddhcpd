@@ -28,7 +28,7 @@
 #include "tools.h"
 #include "version.h"
 
-volatile int daemon_running = 0;
+static volatile sig_atomic_t daemon_running = 0;
 
 extern int log_level;
 
