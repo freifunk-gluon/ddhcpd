@@ -1,7 +1,6 @@
 #include <arpa/inet.h>
 #include <assert.h>
 #include <getopt.h>
-#include <math.h>
 #include <netinet/in.h>
 #include <sys/un.h>
 #include <sys/types.h>
@@ -211,7 +210,9 @@ int main(int argc, char** argv) {
   srand((unsigned int)time(NULL));
 
   ddhcp_config config;
-  config.block_size = 32;
+  unsigned int block_size_pow = 5;
+
+  config.block_size = 1 << block_size_pow;
   config.claiming_blocks_amount = 0;
 
   inet_aton("10.0.0.0", &config.prefix);
@@ -266,7 +267,7 @@ int main(int argc, char** argv) {
       break;
 
     case 'b':
-      config.block_size = (uint8_t)(1 << atoi(optarg));
+      block_size_pow = atoi(optarg);
       break;
 
     case 'B':
@@ -336,6 +337,10 @@ int main(int argc, char** argv) {
 
         if (config.prefix_len < 8) {
           ERROR("Are you the internet? CIDR less than 8 seems strange.\n");
+          exit(1);
+        }
+        if (config.prefix_len > 32) {
+          ERROR("Are you alone? Prefix length larger than address space.\n");
           exit(1);
         }
       } while (0);
@@ -416,7 +421,13 @@ int main(int argc, char** argv) {
     LOG("WARNING: Requested verbosity is higher than maximum supported by this build\n");
   }
 
-  config.number_of_blocks = (uint32_t)pow(2u, (32u - config.prefix_len - ceil(log2(config.block_size))));
+  if (32u - config.prefix_len < block_size_pow) {
+    ERROR("Allocated network not large enough to hold any blocks.");
+    exit(1);
+  }
+
+  config.number_of_blocks = 1u << (32u - config.prefix_len - block_size_pow);
+  config.block_size = 1u << block_size_pow;
 
   if (config.disable_dhcp) {
     config.spare_leases_needed = 0;

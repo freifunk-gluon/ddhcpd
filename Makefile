@@ -55,8 +55,7 @@ CXXFLAGS+= \
     -Weffc++
 
 LFLAGS+= \
-    -flto \
-    -lm
+    -flto
 
 ifeq ($(DEBUG),1)
 CFLAGS+= \
