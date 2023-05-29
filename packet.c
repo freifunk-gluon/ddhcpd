@@ -55,7 +55,7 @@ ssize_t _packet_size(uint8_t command, ssize_t payload_count) {
 }
 
 ATTR_NONNULL_ALL struct ddhcp_mcast_packet* new_ddhcp_packet(uint8_t command, ddhcp_config* config) {
-  struct ddhcp_mcast_packet* packet = (struct ddhcp_mcast_packet*) calloc(sizeof(struct ddhcp_mcast_packet), 1);
+  struct ddhcp_mcast_packet* packet = calloc(1, sizeof(struct ddhcp_mcast_packet));
 
   if (!packet) {
     return NULL;
@@ -117,7 +117,7 @@ ATTR_NONNULL_ALL ssize_t ntoh_mcast_packet(uint8_t* buffer, ssize_t len, struct 
   switch (packet->command) {
   // UpdateClaim
   case DDHCP_MSG_UPDATECLAIM:
-    packet->payload = (struct ddhcp_payload*) calloc(sizeof(struct ddhcp_payload), packet->count);
+    packet->payload = calloc(packet->count, sizeof(struct ddhcp_payload));
     payload = packet->payload;
 
     if (payload == NULL) {
@@ -142,7 +142,7 @@ ATTR_NONNULL_ALL ssize_t ntoh_mcast_packet(uint8_t* buffer, ssize_t len, struct 
 
   // InquireBlock
   case DDHCP_MSG_INQUIRE:
-    packet->payload = (struct ddhcp_payload*) calloc(sizeof(struct ddhcp_payload), packet->count);
+    packet->payload = calloc(packet->count, sizeof(struct ddhcp_payload));
     payload = packet->payload;
 
     if (payload == NULL) {
@@ -164,7 +164,7 @@ ATTR_NONNULL_ALL ssize_t ntoh_mcast_packet(uint8_t* buffer, ssize_t len, struct 
   case DDHCP_MSG_LEASEACK:
   case DDHCP_MSG_LEASENAK:
   case DDHCP_MSG_RELEASE:
-    packet->renew_payload = (struct ddhcp_renew_payload*) calloc(sizeof(struct ddhcp_renew_payload), 1);
+    packet->renew_payload = calloc(1, sizeof(struct ddhcp_renew_payload));
 
     if (packet->renew_payload == NULL) {
       WARNING("ntoh_mcast_packet(...): Failed to allocate packet payload\n");
@@ -266,7 +266,7 @@ ATTR_NONNULL_ALL int hton_packet(struct ddhcp_mcast_packet* packet, char* buffer
 ATTR_NONNULL_ALL ssize_t send_packet_mcast(struct ddhcp_mcast_packet* packet, ddhcp_epoll_data* data) {
   size_t len = (size_t)_packet_size(packet->command, packet->count);
 
-  char* buffer = (char*) calloc(1, len);
+  char* buffer = calloc(len, 1);
 
   if (buffer == NULL) {
     return -1;
@@ -299,7 +299,7 @@ ATTR_NONNULL_ALL ssize_t send_packet_direct(struct ddhcp_mcast_packet* packet, s
   DEBUG("send_packet_direct(packet,dest,mcsocket:%i,scope:%u)\n", data->fd, data->interface_id);
   size_t len = (size_t)_packet_size(packet->command, packet->count);
 
-  char* buffer = (char*) calloc(1, len);
+  char* buffer = calloc(len, 1);
 
   if (buffer == NULL) {
     ERROR("send_packet_direct(...): Failed to allocate send buffer\n");

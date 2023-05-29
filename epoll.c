@@ -35,7 +35,7 @@ ddhcp_epoll_data* epoll_data_new(
     , ddhcpd_epoll_event_t epollin
     , ddhcpd_epoll_event_t epollhup
     ) {
-  ddhcp_epoll_data* ptr = (ddhcp_epoll_data*) calloc(1,sizeof(ddhcp_epoll_data));
+  ddhcp_epoll_data* ptr = calloc(1, sizeof(ddhcp_epoll_data));
   if (ptr == NULL) {
     FATAL("Unable to allocate memory for ddhcp_epoll_data\n");
     exit(2);
