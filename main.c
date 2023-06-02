@@ -382,7 +382,7 @@ int main(int argc, char** argv) {
       break;
 
     default:
-      printf("ARGC: %i\n", argc);
+      printf("Unknown argument at index %i\n", optind);
       show_usage = 1;
       break;
     }
@@ -401,7 +401,7 @@ int main(int argc, char** argv) {
     printf("-b BLKSIZEPOW          Power over two of block size\n");
     printf("-B TIMEOUT             Block claim timeout\n");
     printf("-n NEEDLESS_TIMEOUT    Time until we release needless blocks\n");
-    printf("-s SPARELEASES         Amount of spare leases (max: 256)\n");
+    printf("-s SPARELEASES         Amount of spare leases (max: 255)\n");
     printf("-L                     Deactivate learning phase\n");
     printf("-d                     Run in background and daemonize\n");
     printf("-D                     Run in foreground and log to console (default)\n");
