@@ -102,6 +102,7 @@ struct dhcp_lease {
   enum dhcp_lease_state state;
   uint32_t xid;
   time_t lease_end;
+  uint8_t hookclaim;
 };
 typedef struct dhcp_lease dhcp_lease;
 

@@ -5,6 +5,7 @@
 #include "logger.h"
 #include "tools.h"
 #include "statistics.h"
+#include "hook.h"
 
 ATTR_NONNULL_ALL int ddhcp_block_init(ddhcp_config* config) {
   DEBUG("ddhcp_block_init(config)\n");
@@ -44,8 +45,23 @@ ATTR_NONNULL_ALL int ddhcp_block_init(ddhcp_config* config) {
 
 ATTR_NONNULL_ALL void ddhcp_block_free(ddhcp_config* config) {
   ddhcp_block* block = config->blocks;
+  struct in_addr addr;
 
   for (uint32_t i = 0; i < config->number_of_blocks; i++) {
+    if (block->addresses && block->state == DDHCP_OURS) {
+      // cleanup remaining hookclaims
+      dhcp_lease* lease = block->addresses;
+
+      for (uint32_t lease_index = 0 ; lease_index < block->subnet_len ; lease_index++) {
+          if (lease->hookclaim == 1) {
+              addr_add(&block->subnet, &addr, (int) lease_index);
+              hook_address(HOOK_CLAIM_RELEASE, &addr, (uint8_t *) &config->node_id, config);
+              lease->hookclaim = 0;
+          }
+
+          lease++;
+      }
+    }
     block_free(block++);
   }
 

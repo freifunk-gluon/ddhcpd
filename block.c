@@ -7,6 +7,7 @@
 #include "logger.h"
 #include "statistics.h"
 #include "tools.h"
+#include "hook.h"
 
 // TODO define sane value
 #define UPDATE_CLAIM_MAX_BLOCKS 32
@@ -331,7 +332,9 @@ ATTR_NONNULL_ALL void block_drop_unused(ddhcp_config* config) {
     block++;
   }
 
-  if (freeable_block) {
+    struct in_addr addr;
+
+    if (freeable_block) {
     time_t now = time(NULL);
     if ( freeable_block->needless_since == 0 ) {
       DEBUG("block_drop_unused(...): mark block %i to be needless\n",freeable_block->index);
@@ -341,6 +344,20 @@ ATTR_NONNULL_ALL void block_drop_unused(ddhcp_config* config) {
     } else {
       if ( freeable_block->needless_since <= now - config->block_needless_timeout) {
         DEBUG("block_drop_unused(...): free block %i.\n", freeable_block->index);
+
+          dhcp_lease* lease = block->addresses;
+
+          if (lease) {
+              for (uint32_t lease_index = 0 ; lease_index < block->subnet_len ; lease_index++) {
+                  if (lease->hookclaim == 1) {
+                      addr_add(&block->subnet, &addr, (int)lease_index);
+                      hook_address(HOOK_CLAIM_RELEASE, &addr, (uint8_t *) &config->node_id, config);
+                      lease->hookclaim = 0;
+                  }
+
+                  lease++;
+              }
+          }
         block_free(freeable_block);
         config->needless_marks = 0;
       } else {
@@ -421,9 +438,23 @@ ATTR_NONNULL_ALL void block_update_claims(ddhcp_config* config) {
   uint8_t send_packet = 0;
   uint8_t index = 0;
   time_t new_block_timeout = now + config->block_timeout;
+  dhcp_lease* lease;
+  struct in_addr addr;
 
   for (uint32_t i = 0; i < config->number_of_blocks; i++) {
     if (block->state == DDHCP_OURS) {
+        lease = block->addresses;
+
+        for (uint32_t lease_index = 0 ; lease_index < block->subnet_len ; lease_index++) {
+            if (lease->state == FREE && (!lease->hookclaim || block->timeout < timeout_factor)) {
+                addr_add(&block->subnet, &addr, (int)lease_index);
+                hook_address(HOOK_CLAIM, &addr, (uint8_t *) &config->node_id, config);
+                lease->hookclaim = 1;
+            }
+
+            lease++;
+        }
+
 
       if (block->timeout < timeout_factor) {
         DEBUG("block_update_claims(...): update claim for block %i needed\n", block->index);
